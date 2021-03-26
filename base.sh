@@ -1,12 +1,3 @@
-username=autocowrekt
-gitrepo=
-
-## NOTE
-# user must be in sudo group before proceeding
-
-echo -e "[*] Pulling down git repo..."
-sudo apt install git
-git clone $gitrepo
 
 echo -e "[*] Installing some prerequisite packages..."
 sudo apt install software-properties-common apt-transport-https curl jq gnupg aptitude -y
