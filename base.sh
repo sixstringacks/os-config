@@ -7,7 +7,7 @@ curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
 
 echo -e "[*] Installing base packages..."
-sudo apt update && sudo apt install open-vm-tools dnsutils evince file-roller ufw gftp git dig gparted gzip hexchat htop geany p7zip remmina telnet tmux thunar thunar-archive-plugin traceroute rkhunter  transmission unzip vim wget wireshark-gtk proxychains-ng tor  ttf-anonymous-pro ristretto chromium code plank bless python3 lightdm-gtk-greeter-settings ufw openssh-server
+sudo apt update && sudo apt install vim open-vm-tools dnsutils evince file-roller ufw gftp git dig gparted gzip hexchat htop geany p7zip remmina telnet tmux thunar thunar-archive-plugin traceroute rkhunter  transmission unzip vim wget wireshark-gtk proxychains-ng tor  ttf-anonymous-pro ristretto chromium code plank bless python3 lightdm-gtk-greeter-settings ufw openssh-server
 
 echo -e "[*] Configuring bashrc..."
 cp ~/.bashrc ~/.bashrc_old
@@ -189,8 +189,8 @@ EOF
 
 echo -e "[*] Configuring ufw..."
 sudo ufw default deny incoming
-ufw allow in on lo
-ufw allow out from lo
+sudo ufw allow in on lo
+sudo ufw allow out from lo
 sudo ufw deny in from 127.0.0.0/8
 sudo ufw deny in from ::1
 echo "y" | sudo ufw enable
@@ -223,6 +223,22 @@ sudo find /etc/ssh -xdev -type f -name 'ssh_host_*_key' -exec chown root:root {}
 sudo find /etc/ssh -xdev -type f -name 'ssh_host_*_key' -exec chmod 0600 {} \;
 sudo find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' -exec chmod go-wx {} \;
 sudo find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' -exec chown root:root {} \;
+
+echo -e "[*] Blacklisting unneeded kernel modules"
+echo "blacklist aesni_intel" | sudo tee /etc/modprobe.d/aesni_intel.conf
+echo "blacklist bluetooth" | sudo tee /etc/modprobe.d/bluetooth.conf
+echo "blacklist btbcm" | sudo tee /etc/modprobe.d/btbcm.conf
+echo "blacklist btintel" | sudo tee /etc/modprobe.d/btintel.conf
+echo "blacklist btrtl" | sudo tee /etc/modprobe.d/btrtl.conf
+echo "blacklist btusb" | sudo tee /etc/modprobe.d/btusb.conf
+echo "blacklist ehci_hcd" | sudo tee /etc/modprobe.d/ehci_hcd.conf
+echo "blacklist uhci_hcd" | sudo tee /etc/modprobe.d/uhci_hcd.conf
+echo "blacklist usb_common" | sudo tee /etc/modprobe.d/usb_common.conf
+echo "blacklist usbcore" | sudo tee /etc/modprobe.d/usbcore.conf
+lsmod
+sudo depmod -ae
+sudo update-initramfs -u
+
 
 echo -e "[*] Making backup of sshd_config..."
 sudo mv /etc/ssh/sshd_config /etc/ssh/sshd_config_old
@@ -276,7 +292,7 @@ sudo sysctl -w net.ipv4.conf.default.send_redirects=0
 sudo sysctl -w net.ipv4.conf.all.accept_source_route=0
 sudo sysctl -w net.ipv4.conf.default.accept_source_route=0
 sudo sysctl -w net.ipv4.conf.all.accept_redirects=0
-sudo sysctl -w net.ipv5.conf.default.accept_redirects=0 
+sudo sysctl -w net.ipv4.conf.default.accept_redirects=0 
 sudo sysctl -w net.ipv4.conf.all.secure_redirects=0
 sudo sysctl -w net.ipv4.conf.default.secure_redirects=0 
 sudo sysctl -w net.ipv4.conf.all.log_martians=1

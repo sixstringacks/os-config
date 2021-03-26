@@ -1,4 +1,4 @@
-sudo apt install i3
+sudo apt install i3 lightdm -y
 
 # i3 configuration
 cp ~/.config/i3/config ~/.config/i3/config.bak
