@@ -7,7 +7,7 @@ curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
 
 echo -e "[*] Installing base packages..."
-sudo apt update && sudo apt install open-vm-tools dnsutils evince file-roller  gftp git dig gparted gzip hexchat htop geany p7zip remmina telnet tmux thunar thunar-archive-plugin traceroute rkhunter  transmission unzip vim wget wireshark-gtk proxychains-ng tor  ttf-anonymous-pro ristretto chromium code plank bless python3 lightdm-gtk-greeter-settings ufw openssh-server
+sudo apt update && sudo apt install open-vm-tools dnsutils evince file-roller ufw gftp git dig gparted gzip hexchat htop geany p7zip remmina telnet tmux thunar thunar-archive-plugin traceroute rkhunter  transmission unzip vim wget wireshark-gtk proxychains-ng tor  ttf-anonymous-pro ristretto chromium code plank bless python3 lightdm-gtk-greeter-settings ufw openssh-server
 
 echo -e "[*] Configuring bashrc..."
 cp ~/.bashrc ~/.bashrc_old
@@ -211,7 +211,7 @@ sudo chmod og-rwx /etc/crontab
 sudo chown root:root /etc/crontab
 sudo chmod og-rwx /etc/cron.*
 sudo chown root:root /etc/cron.*
-sudo rm /etc/cron.deny (if exists)
+sudo rm /etc/cron.deny 
 sudo touch /etc/cron.allow
 sudo chown root:root /etc/cron.allow
 sudo chmod g-wx,o-rwx /etc/cron.allow
