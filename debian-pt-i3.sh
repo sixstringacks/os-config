@@ -1,14 +1,15 @@
-sudo apt install i3 lightdm -y
+sudo apt install i3 lightdm gnome-terminal blackbird-gtk-theme lxappearance rofi -y
 
 # i3 configuration
-cp ~/.config/i3/config ~/.config/i3/config.bak
-cat <<EOF | tee ~/.config/i3/config
+if [[ -f /home/autocowrekt/.config/i3/config ]]; then
+    cp /home/autocowrekt/.config/i3/config /home/autocowrekt/.config/i3/config.bak
+fi
+
+cat <<"EOF" | tee ~/.config/i3/config
 # i3 config file (v4)
 
-## Mod Key
-# set $mod Mod4 # Super
-set $mod Mod1 # Alt
-
+set $sup Mod4 
+set $mod Mod1 
 
 font pango:monospace 6
 
@@ -33,10 +34,10 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Shift+q kill
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -45,10 +46,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -191,8 +192,11 @@ bindsym $mod+d exec "dmenu_run -nf '#BBBBBB' -nb '#222222' -sb '#005577' -sf '#E
 EOF
 
 echo -e "[*] Configuring /etc/i3status.conf"
-sudo cp /etc/i3status.conf /etc/i3status.conf_old
-cat <<EOF | tee /etc/i3status.conf
+if [[ -f /etc/i3status.conf ]]; then
+    sudo cp /etc/i3status.conf /etc/i3status.conf_old
+fi
+
+cat <<"EOF" | tee /etc/i3status.conf
 general {
     interval 		= 1
     colors 			= true

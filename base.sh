@@ -7,7 +7,7 @@ curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
 
 echo -e "[*] Installing base packages..."
-sudo apt update && sudo apt install vim open-vm-tools dnsutils evince file-roller ufw gftp git gparted gzip hexchat htop geany p7zip remmina telnet tmux thunar thunar-archive-plugin traceroute rkhunter  transmission unzip vim wget wireshark-gtk proxychains-ng tor  ttf-anonymous-pro ristretto chromium code plank bless python3 lightdm-gtk-greeter-settings ufw openssh-server -y
+sudo apt update && sudo apt install vim open-vm-tools firefox-esr open-vm-tools-desktop dnsutils mupdf file-roller ufw gftp git gparted gzip hexchat htop geany p7zip remmina telnet tmux thunar thunar-archive-plugin traceroute rkhunter  transmission unzip vim wget wireshark-gtk proxychains-ng tor ristretto chromium code bless python3 lightdm-gtk-greeter-settings ufw openssh-server -y
 
 echo -e "[*] Configuring bashrc..."
 cp ~/.bashrc ~/.bashrc_old
@@ -77,11 +77,11 @@ if [ "$color_prompt" = yes ]; then
 
     prompt_color='\[\033[;37m\]'
     info_color='\[\033[1;32m\]'
-    prompt_symbol=㉿
+    prompt_symbol=@
     if [ "$EUID" -eq 0 ]; then # Change prompt colors for root user
 	prompt_color='\[\033[;37m\]'
 	info_color='\[\033[1;31m\]'
-	prompt_symbol=💀
+	prompt_symbol=@
     fi
     PS1=$prompt_color'┌──${debian_chroot:+($debian_chroot)──}${VIRTUAL_ENV:+(\[\033[0;1m\]$(basename $VIRTUAL_ENV)'$prompt_color')}('$info_color'\u${prompt_symbol}\h'$prompt_color')-[\[\033[0;1m\]\w'$prompt_color']\n'$prompt_color'└─'$info_color'\$\[\033[0m\] '
     # BackTrack red prompt
@@ -204,7 +204,6 @@ sudo userdel uucp
 sudo userdel news
 sudo groupdel news
 sudo userdel games
-sudo userdel www-data
 sudo userdel list
 sudo rmdir /usr/local/games
 sudo chmod og-rwx /etc/crontab
