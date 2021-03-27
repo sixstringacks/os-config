@@ -7,7 +7,7 @@ curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
 
 echo -e "[*] Installing base packages..."
-sudo apt update && sudo apt install vim open-vm-tools dnsutils evince file-roller ufw gftp git dig gparted gzip hexchat htop geany p7zip remmina telnet tmux thunar thunar-archive-plugin traceroute rkhunter  transmission unzip vim wget wireshark-gtk proxychains-ng tor  ttf-anonymous-pro ristretto chromium code plank bless python3 lightdm-gtk-greeter-settings ufw openssh-server
+sudo apt update && sudo apt install vim open-vm-tools dnsutils evince file-roller ufw gftp git gparted gzip hexchat htop geany p7zip remmina telnet tmux thunar thunar-archive-plugin traceroute rkhunter  transmission unzip vim wget wireshark-gtk proxychains-ng tor  ttf-anonymous-pro ristretto chromium code plank bless python3 lightdm-gtk-greeter-settings ufw openssh-server
 
 echo -e "[*] Configuring bashrc..."
 cp ~/.bashrc ~/.bashrc_old
