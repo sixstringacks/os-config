@@ -1,11 +1,3 @@
-
-echo -e "[*] Installing some prerequisite packages..."
-sudo apt install software-properties-common apt-transport-https curl jq gnupg aptitude -y
-
-echo -e "[*] Adding gpg key for microsoft..."
-curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
-
 echo -e "[*] Installing base packages..."
 sudo apt update && sudo apt install vim open-vm-tools dnsutils evince file-roller ufw gftp git dig gparted gzip hexchat htop geany p7zip remmina telnet tmux thunar thunar-archive-plugin traceroute rkhunter  transmission unzip vim wget wireshark-gtk proxychains-ng tor  ttf-anonymous-pro ristretto chromium code plank bless python3 lightdm-gtk-greeter-settings ufw openssh-server
 
@@ -151,42 +143,6 @@ if ! shopt -oq posix; then
 fi
 EOF
 
-echo -e "[*] Adding tmux config"
-cat <<"EOF" | tee ~/.tmux.conf
-# remap prefix from 'C-b' to 'C-a'
-unbind C-b
-set-option -g prefix C-a
-bind-key C-a send-prefix
-
-set -g history-limit 20000
-set -g allow-rename off
-
-# Allow mouse interaction
-set-option -g mouse on
-
-# Copy mode VI (instead of emacs)
-set-window-option -g mode-keys vi
-
-# Clear scrollback buffer
-bind -n C-k clear-history
-
-# For binding 'y' to copy and exiting selection mode
-bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'xclip -sel clip -i'
-
-# For binding 'Enter' to copy and not leave selection mode
-bind-key -T copy-mode-vi Enter send-keys -X copy-pipe 'xclip -sel clip -i' '\;'  send -X clear-selection
-
-# join/send panes
-bind-key j command-prompt -p "join pane from:"  "join-pane -s '%%'"
-bind-key s command-prompt -p "send pane to:"  "join-pane -t '%%'"
-
-# logging
-run-shell ~/tools/tmux-logging/logging.tmux
-
-# Ge Get colors back
-set -g default-terminal "screen-256color"
-EOF
-
 echo -e "[*] Configuring ufw..."
 sudo ufw default deny incoming
 sudo ufw allow in on lo
@@ -216,29 +172,6 @@ sudo touch /etc/cron.allow
 sudo chown root:root /etc/cron.allow
 sudo chmod g-wx,o-rwx /etc/cron.allow
 
-echo -e "[*] Locking down ssh files..."
-sudo chown root:root /etc/ssh/sshd_config
-sudo chmod og-rwx /etc/ssh/sshd_config
-sudo find /etc/ssh -xdev -type f -name 'ssh_host_*_key' -exec chown root:root {} \;
-sudo find /etc/ssh -xdev -type f -name 'ssh_host_*_key' -exec chmod 0600 {} \;
-sudo find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' -exec chmod go-wx {} \;
-sudo find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' -exec chown root:root {} \;
-
-echo -e "[*] Blacklisting unneeded kernel modules"
-echo "blacklist aesni_intel" | sudo tee /etc/modprobe.d/aesni_intel.conf
-echo "blacklist bluetooth" | sudo tee /etc/modprobe.d/bluetooth.conf
-echo "blacklist btbcm" | sudo tee /etc/modprobe.d/btbcm.conf
-echo "blacklist btintel" | sudo tee /etc/modprobe.d/btintel.conf
-echo "blacklist btrtl" | sudo tee /etc/modprobe.d/btrtl.conf
-echo "blacklist btusb" | sudo tee /etc/modprobe.d/btusb.conf
-echo "blacklist ehci_hcd" | sudo tee /etc/modprobe.d/ehci_hcd.conf
-echo "blacklist uhci_hcd" | sudo tee /etc/modprobe.d/uhci_hcd.conf
-echo "blacklist usb_common" | sudo tee /etc/modprobe.d/usb_common.conf
-echo "blacklist usbcore" | sudo tee /etc/modprobe.d/usbcore.conf
-sudo depmod -ae
-sudo update-initramfs -u
-
-
 echo -e "[*] Making backup of sshd_config..."
 sudo mv /etc/ssh/sshd_config /etc/ssh/sshd_config_old
 
@@ -259,54 +192,3 @@ PermitUserEnvironment no
 AllowTcpForwarding no
 Subsystem	sftp	/usr/lib/openssh/sftp-server
 EOF
-
-#vim /etc/grub/grub.cfg CMDLINE_LINUX="ipv6.disable=1"
-
-echo -e "[*] Making backup of sysctl.conf..."
-sudo cp /etc/sysctl.conf /etc/sysctl.conf_old
-
-echo -e "[*] Updating sysctl.conf..."
-cat <<EOF | sudo tee -a /etc/sysctl.conf
-net.ipv4.conf.all.send_redirects = 0
-net.ipv4.conf.default.send_redirects = 0
-net.ipv4.conf.all.accept_source_route=0
-net.ipv4.conf.default.accept_source_route=0
-net.ipv4.conf.all.accept_redirects = 0
-net.ipv4.conf.default.accept_redirects = 0 
-net.ipv4.conf.all.secure_redirects = 0
-net.ipv4.conf.default.secure_redirects = 0 
-net.ipv4.conf.all.log_martians=1
-net.ipv4.conf.default.log_martians=1
-net.ipv4.icmp_echo_ignore_broadcasts=1
-net.ipv4.icmp_ignore_bogus_error_responses=1
-net.ipv4.conf.all.rp_filter=1
-net.ipv4.conf.default.rp_filter=1
-net.ipv4.tcp_syncookies=1
-net.ipv6.conf.all.accept_ra = 0
-net.ipv6.conf.default.accept_ra = 0
-EOF
-
-sudo sysctl -w net.ipv4.conf.all.send_redirects=0
-sudo sysctl -w net.ipv4.conf.default.send_redirects=0
-sudo sysctl -w net.ipv4.conf.all.accept_source_route=0
-sudo sysctl -w net.ipv4.conf.default.accept_source_route=0
-sudo sysctl -w net.ipv4.conf.all.accept_redirects=0
-sudo sysctl -w net.ipv4.conf.default.accept_redirects=0 
-sudo sysctl -w net.ipv4.conf.all.secure_redirects=0
-sudo sysctl -w net.ipv4.conf.default.secure_redirects=0 
-sudo sysctl -w net.ipv4.conf.all.log_martians=1
-sudo sysctl -w net.ipv4.conf.default.log_martians=1
-sudo sysctl -w net.ipv4.icmp_echo_ignore_broadcasts=1
-sudo sysctl -w net.ipv4.icmp_ignore_bogus_error_responses=1
-sudo sysctl -w net.ipv4.conf.all.rp_filter=1
-sudo sysctl -w net.ipv4.conf.default.rp_filter=1
-sudo sysctl -w net.ipv4.tcp_syncookies=1
-sudo sysctl -w net.ipv6.conf.all.accept_ra=0
-sudo sysctl -w net.ipv6.conf.default.accept_ra=0
-sudo sysctl -w net.ipv4.route.flush=1
-
-# Not sure if needed
-# echo "install dccp /bin/true" > /etc/modprobe.d/dccp.conf
-# echo "install sctp /bin/true" > /etc/modprobe.d/sctp.conf
-# echo "install rds /bin/true" >  /etc/modprobe.d/rds.conf
-# echo "install tipc /bin/true" > /etc/modprobe.d/tipc.conf
