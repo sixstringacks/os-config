@@ -1,0 +1,298 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/polybar/polybar
+;
+;   The README contains a lot of information
+;
+;==========================================================
+
+#[colors]
+#;background = ${xrdb:color0:#222}
+#background = #222
+#background-alt = #444
+#;foreground = ${xrdb:color7:#222}
+#foreground = #dfdfdf
+#foreground-alt = #555
+#primary = #ffb52a
+#secondary = #e60053
+#alert = #bd2c40
+
+[colors]
+background = ${xrdb:color0:#222}
+foreground = ${xrdb:color7:#222}
+foreground-alt = ${xrdb:color7:#222}
+primary = ${xrdb:color1:#222}
+secondary = ${xrdb:color2:#222}
+alert = ${xrdb:color3:#222}
+
+xrdb1 = ${xrdb:color1:#222}
+xrdb2 = ${xrdb:color2:#222}
+xrdb3 = ${xrdb:color3:#222}
+xrdb4 = ${xrdb:color4:#222}
+xrdb5 = ${xrdb:color5:#222}
+xrdb6 = ${xrdb:color6:#222}
+xrdb7 = ${xrdb:color7:#222}
+xrdb8 = ${xrdb:color8:#222}
+xrdb9 = ${xrdb:color9:#222}
+xrdb10 = ${xrdb:color10:#222}
+xrdb11 = ${xrdb:color11:#222}
+xrdb12 = ${xrdb:color12:#222}
+xrdb13 = ${xrdb:color13:#222}
+xrdb14 = ${xrdb:color14:#222}
+xrdb15 = ${xrdb:color15:#222}
+
+
+[bar/example]
+;monitor = ${env:MONITOR:HDMI-1}
+width = 100%
+height = 27
+;offset-x = 1%
+;offset-y = 1%
+radius = 0
+fixed-center = false
+#separator = "|"
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 2
+line-color = #f00
+
+border-size = 4
+border-color = #00000000
+
+padding-left = 1
+padding-right = 1
+
+module-margin-left = 2
+module-margin-right = 2
+
+font-0 = fixed:pixelsize=10;1
+font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
+font-2 = siji:pixelsize=10;1
+font-3 = FontAwesome:style=Regular;4
+
+modules-left = bspwm 
+modules-center = xwindow
+modules-right = eth filesystem cpu memory date powermenu
+
+tray-position = right
+tray-padding = 2
+;tray-background = #0063ff
+
+;wm-restack = bspwm
+;wm-restack = i3
+
+;override-redirect = true
+
+;scroll-up = bspwm-desknext
+;scroll-down = bspwm-deskprev
+
+;scroll-up = i3wm-wsnext
+;scroll-down = i3wm-wsprev
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:30:...%
+
+[module/xkeyboard]
+type = internal/xkeyboard
+blacklist-0 = num lock
+
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+format-prefix-underline = ${colors.secondary}
+
+label-layout = %layout%
+label-layout-underline = ${colors.secondary}
+
+label-indicator-padding = 2
+label-indicator-margin = 1
+label-indicator-background = ${colors.secondary}
+label-indicator-underline = ${colors.secondary}
+
+## Filsystem
+[module/filesystem]
+type = internal/fs
+interval = 25
+
+mount-0 = /
+
+label-mounted = HDD: %free%
+label-unmounted = %mountpoint% not mounted
+label-unmounted-foreground = ${colors.foreground-alt}
+label-mounted-underline = ${colors.xrdb4}
+
+## BSPWM
+[module/bspwm]
+type = internal/bspwm
+
+label-focused = %index%
+label-focused-background = ${colors.background-alt}
+label-focused-underline= ${colors.xrdb1}
+label-focused-padding = 2
+
+label-occupied = %index%
+label-occupied-padding = 2
+
+label-urgent = %index%!
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 2
+
+label-empty = %index%
+label-empty-foreground = ${colors.foreground-alt}
+label-empty-padding = 2
+
+; Separator in between workspaces
+; label-separator = |
+
+## CPU
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = " "
+format-prefix-foreground = ${xrdb:color3:#222}
+format-underline = ${colors.xrdb4}
+label = CPU: %percentage:2%%
+
+## Memory
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground-alt}
+format-underline = ${colors.xrdb7}
+label = Mem: %percentage_used%%
+
+## WLAN
+[module/wlan]
+type = internal/network
+interface = wlp59s0
+interval = 3.0
+
+format-connected = <ramp-signal> <label-connected>
+format-connected-underline = #9f78e1
+label-connected = %essid%
+
+format-disconnected =
+;format-disconnected = <label-disconnected>
+;format-disconnected-underline = ${self.format-connected-underline}
+;label-disconnected = %ifname% disconnected
+;label-disconnected-foreground = ${colors.foreground-alt}
+
+ramp-signal-0 = 
+ramp-signal-1 = 
+ramp-signal-2 = 
+ramp-signal-3 = 
+ramp-signal-4 = 
+ramp-signal-foreground = ${colors.foreground-alt}
+
+## Ethernet
+[module/eth]
+type = internal/network
+interface = ens33
+interval = 3.0
+
+format-connected-underline = ${xrdb:color6}
+format-connected-prefix = " "
+format-connected-prefix-foreground = ${colors.foreground-alt}
+label-connected = Eth: %local_ip%
+
+format-disconnected =
+;format-disconnected = <label-disconnected>
+;format-disconnected-underline = ${self.format-connected-underline}
+;label-disconnected = %ifname% disconnected
+;label-disconnected-foreground = ${colors.foreground-alt}
+
+## VPN
+[module/vpn]
+type = internal/network
+interface = tun0
+interval = 3.0
+
+format-connected-underline = #55aa55
+format-connected-prefix = " "
+format-connected-prefix-foreground = ${colors.foreground-alt}
+label-connected = %local_ip%
+
+format-disconnected =
+;format-disconnected = <label-disconnected>
+;format-disconnected-underline = ${self.format-connected-underline}
+;label-disconnected = %ifname% disconnected
+;label-disconnected-foreground = ${colors.foreground-alt}
+
+## Date
+[module/date]
+type = internal/date
+interval = 5
+
+date = %Y.%m.%d 
+date-alt = 
+
+time = %H:%M 
+time-alt = %H:%M:%S 
+
+format-prefix = 
+format-prefix-foreground = ${colors.foreground-alt}
+format-underline = ${colors.xrdb8}
+
+label = %date% %time%
+
+## Powermenu 
+[module/powermenu]
+type = custom/menu
+
+expand-right = true
+
+format-spacing = 1
+
+label-open = "   "
+label-open-foreground = ${colors.primary}
+label-close =  cancel
+label-close-foreground = ${colors.primary}
+label-separator = |
+label-separator-foreground = ${colors.foreground-alt}
+
+menu-0-0 = reboot
+menu-0-0-exec = systemctl reboot
+menu-0-1 = poweroff
+menu-0-1-exec = systemctl poweroff
+
+menu-0-2 = logout
+menu-0-2-exec = bspc quit
+menu-0-3 = apps
+menu-0-3-exec = rofi -combi-mini window,drun,ssh -font "hack 10" -show combi
+
+#menu-1-1 = systemctl reboot
+#menu-1-1-exec = reboot
+
+#menu-2-0 = power off
+#menu-2-0-exec = poweroff
+#menu-2-1 = cancel
+#menu-2-1-exec = menu-open-0
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+;pseudo-transparency = false
+
+[global/wm]
+margin-top = 5
+margin-bottom = 5
+
+; vim:ft=dosini

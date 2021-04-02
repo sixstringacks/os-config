@@ -1,0 +1,65 @@
+#! /bin/sh
+
+# Launch sxhkd for keybinds
+pgrep -x sxhkd > /dev/null || sxhkd &
+
+#pgrep -x sxhkd > /dev/null || sxhkd -c /home/autocowrekt/.config/sxhkd/sxhkd-altkey &
+
+# Basic Config
+bspc monitor -d I II III IV V VI VII VIII IX X
+bspc config border_width        2
+bspc config window_gap          6
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+# Colors
+bspc config normal_border_color "$color1"
+bspc config active_border_color "$color2"
+bspc config focused_border_color "$color15"
+bspc config presel_feedback_color "$color1"
+
+# App Rules
+#bspc rule -a Gimp desktop='^8' state=floating follow=on
+#bspc rule -a Chromium desktop='^2'
+#bspc rule -a mplayer2 state=floating
+#bspc rule -a Kupfer.py focus=on
+#bspc rule -a Screenkey manage=off
+bspc rule -a firefox-esr desktop='^2'
+bspc rule -a burpsuite desktop='^2'
+
+
+# Resolution
+# Surface
+xrandr -s 1920x1200
+
+# Agon
+#xrandr -s 2560x1600
+
+# Allow copy/paste
+vmware-user-suid-wrapper &
+
+# Launch polybar
+$HOME/.config/polybar/launch.sh &
+
+# Set wallpaper
+feh --bg-scale $HOME/wallpaper1/purple-sky.jpg
+
+# Set wal theme
+#wal --theme sexy-eqie6 &
+wal --theme base16-brewer &
+
+# swap alt and super keys (causing problems with win10 host)
+xmodmap $HOME/.xmodmaprc
+
+# Read in pywal color scheme for user in other apps
+xrdb ~/.cache/wal/colors.Xresources
+
+# Compton
+pkill -x compton; compton -c -f -o 0.87 -m 0.87 -i 0.65 --active-opacity 0.85 --inactive-dim 0.2 --vsync opengl-mswc --use-ewmh-active-win --backend glx
+
+# retart dunst
+pkill -x dunst && dunst &
+
+# set xterm theme
+xrdb -merge ~/.Xresources
