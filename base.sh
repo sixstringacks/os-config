@@ -1,25 +1,31 @@
+#!/bin/bash
+# Base Debian 10 installation script
 
-echo -e "[*] Installing some prerequisite packages..."
+echo "[*] Installing some prerequisite packages..."
 sleep 2
-sudo apt install software-properties-common apt-transport-https curl jq gnupg aptitude -y
+sudo apt install  -y
 
-echo -e "[*] Adding gpg key for microsoft..."
+echo "[*] Adding gpg key for microsoft..."
 sleep 2
 curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
 
-echo -e "[*] Installing base packages..."
+echo "[*] Installing base packages..."
 sleep 2
-sudo apt update && sudo apt install vim open-vm-tools open-vm-tools-desktop firefox-esr \
-dnsutils mupdf ufw gftp git gparted gzip hexchat htop geany p7zip remmina telnet tmux thunar \
-thunar-archive-plugin traceroute rkhunter transmission unzip unrar vim wget wireshark-gtk \
-proxychains-ng tor ristretto chromium code bless python3 ufw openssh-server papirus-icon-theme \
-fonts-firacode fonts-font-awesome fonts-hack fonts-roboto fonts-dejavu fonts-dejavu-extra \
-fonts-noto-color-emoji fonts-symbola xfonts-terminus pip3 -y
+sudo apt update && sudo apt install software-properties-common \
+apt-transport-https curl jq gnupg aptitude vim open-vm-tools \
+open-vm-tools-desktop firefox-esr dnsutils mupdf ufw gftp git \
+gparted gzip hexchat htop geany p7zip remmina telnet tmux thunar \
+thunar-archive-plugin traceroute rkhunter transmission unzip \
+unrar vim wget wireshark-gtk proxychains-ng tor ristretto chromium \
+code bless python3 ufw openssh-server papirus-icon-theme \
+fonts-firacode fonts-font-awesome fonts-hack fonts-roboto \
+fonts-dejavu fonts-dejavu-extra fonts-noto-color-emoji \
+fonts-symbola xfonts-terminus pip -y
 
 sudo pip3 install pywal
 
-echo -e "[*] Configuring ufw..."
+echo "[*] Configuring ufw..."
 sleep 2
 sudo ufw default deny incoming
 sudo ufw allow in on lo
@@ -28,7 +34,7 @@ sudo ufw deny in from 127.0.0.0/8
 sudo ufw deny in from ::1
 echo "y" | sudo ufw enable
 
-echo -e "[*] Locking down home, crontab and removing unnecessary users and groups"
+echo "[*] Locking down home, crontab and removing unnecessary users and groups"
 sleep 2
 sudo chmod -R 750 $HOME
 sudo groupdel audio
@@ -49,7 +55,7 @@ sudo touch /etc/cron.allow
 sudo chown root:root /etc/cron.allow
 sudo chmod g-wx,o-rwx /etc/cron.allow
 
-echo -e "[*] Locking down ssh files..."
+echo "[*] Locking down ssh files..."
 sleep 2
 sudo chown root:root /etc/ssh/sshd_config
 sudo chmod og-rwx /etc/ssh/sshd_config
@@ -58,7 +64,7 @@ sudo find /etc/ssh -xdev -type f -name 'ssh_host_*_key' -exec chmod 0600 {} \;
 sudo find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' -exec chmod go-wx {} \;
 sudo find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' -exec chown root:root {} \;
 
-echo -e "[*] Blacklisting unneeded kernel modules"
+echo "[*] Blacklisting unneeded kernel modules"
 sleep 2
 echo "blacklist aesni_intel" | sudo tee /etc/modprobe.d/aesni_intel.conf
 echo "blacklist bluetooth" | sudo tee /etc/modprobe.d/bluetooth.conf
@@ -73,12 +79,14 @@ echo "blacklist usbcore" | sudo tee /etc/modprobe.d/usbcore.conf
 sudo depmod -ae
 sudo update-initramfs -u
 
-
-echo -e "[*] Making backup of sshd_config..."
+echo "[*] Making backup of sshd_config..."
 sleep 2
-sudo mv /etc/ssh/sshd_config /etc/ssh/sshd_config_old
+if [  ! -f  /etc/ssh/sshd_config_old ];then
+    
+    sudo mv /etc/ssh/sshd_config /etc/ssh/sshd_config_old
 
-echo -e "[*] Creating new sshd_config..."
+    echo "[*] Creating new sshd_config..."
+
 cat <<"EOF" | sudo tee /etc/ssh/sshd_config
 Include /etc/ssh/sshd_config.d/*.conf
 MaxAuthTries 6
@@ -96,13 +104,16 @@ AllowTcpForwarding no
 Subsystem	sftp	/usr/lib/openssh/sftp-server
 EOF
 
-#vim /etc/grub/grub.cfg CMDLINE_LINUX="ipv6.disable=1"
+fi
 
-echo -e "[*] Making backup of sysctl.conf..."
+echo "[*] Making backup of sysctl.conf..."
 sleep 2
-sudo cp /etc/sysctl.conf /etc/sysctl.conf_old
+if [  ! -f  /etc/sysctl.conf_old ];then
+    
+    sudo cp /etc/sysctl.conf /etc/sysctl.conf_old
 
-echo -e "[*] Updating sysctl.conf..."
+    echo "[*] Updating sysctl.conf..."
+
 cat <<EOF | sudo tee -a /etc/sysctl.conf
 net.ipv4.conf.all.send_redirects = 0
 net.ipv4.conf.default.send_redirects = 0
@@ -122,6 +133,8 @@ net.ipv4.tcp_syncookies=1
 net.ipv6.conf.all.accept_ra = 0
 net.ipv6.conf.default.accept_ra = 0
 EOF
+
+fi
 
 sudo sysctl -w net.ipv4.conf.all.send_redirects=0
 sudo sysctl -w net.ipv4.conf.default.send_redirects=0
