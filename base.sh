@@ -8,7 +8,7 @@ apt-transport-https curl jq gnupg aptitude vim open-vm-tools \
 open-vm-tools-desktop firefox-esr dnsutils mupdf ufw gftp git \
 gparted gzip hexchat htop geany p7zip remmina telnet tmux thunar \
 thunar-archive-plugin traceroute rkhunter transmission unzip \
-unrar vim wget wireshark-gtk proxychains-ng tor ristretto chromium \
+vim wget wireshark-gtk proxychains-ng tor ristretto chromium \
 code bless python3 ufw openssh-server papirus-icon-theme \
 fonts-firacode fonts-font-awesome fonts-hack fonts-roboto \
 fonts-dejavu fonts-dejavu-extra fonts-noto-color-emoji \
@@ -21,7 +21,7 @@ sleep 2
 curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
 
-echo "[*] Configuring ufw..."
+    echo "[*] Configuring ufw..."
 sleep 2
 sudo ufw default deny incoming
 sudo ufw allow in on lo
