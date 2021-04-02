@@ -1,12 +1,15 @@
 
 echo -e "[*] Installing some prerequisite packages..."
+sleep 2
 sudo apt install software-properties-common apt-transport-https curl jq gnupg aptitude -y
 
 echo -e "[*] Adding gpg key for microsoft..."
+sleep 2
 curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
 
 echo -e "[*] Installing base packages..."
+sleep 2
 sudo apt update && sudo apt install vim open-vm-tools open-vm-tools-desktop firefox-esr \
 dnsutils mupdf ufw gftp git gparted gzip hexchat htop geany p7zip remmina telnet tmux thunar \
 thunar-archive-plugin traceroute rkhunter transmission unzip unrar vim wget wireshark-gtk \
@@ -16,8 +19,8 @@ fonts-noto-color-emoji fonts-symbola xfonts-terminus pip3 -y
 
 sudo pip3 install pywal
 
-
 echo -e "[*] Configuring ufw..."
+sleep 2
 sudo ufw default deny incoming
 sudo ufw allow in on lo
 sudo ufw allow out from lo
@@ -26,6 +29,7 @@ sudo ufw deny in from ::1
 echo "y" | sudo ufw enable
 
 echo -e "[*] Locking down home, crontab and removing unnecessary users and groups"
+sleep 2
 sudo chmod -R 750 $HOME
 sudo groupdel audio
 sudo groupdel video
@@ -46,6 +50,7 @@ sudo chown root:root /etc/cron.allow
 sudo chmod g-wx,o-rwx /etc/cron.allow
 
 echo -e "[*] Locking down ssh files..."
+sleep 2
 sudo chown root:root /etc/ssh/sshd_config
 sudo chmod og-rwx /etc/ssh/sshd_config
 sudo find /etc/ssh -xdev -type f -name 'ssh_host_*_key' -exec chown root:root {} \;
@@ -54,6 +59,7 @@ sudo find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' -exec chmod go-wx {}
 sudo find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' -exec chown root:root {} \;
 
 echo -e "[*] Blacklisting unneeded kernel modules"
+sleep 2
 echo "blacklist aesni_intel" | sudo tee /etc/modprobe.d/aesni_intel.conf
 echo "blacklist bluetooth" | sudo tee /etc/modprobe.d/bluetooth.conf
 echo "blacklist btbcm" | sudo tee /etc/modprobe.d/btbcm.conf
@@ -69,6 +75,7 @@ sudo update-initramfs -u
 
 
 echo -e "[*] Making backup of sshd_config..."
+sleep 2
 sudo mv /etc/ssh/sshd_config /etc/ssh/sshd_config_old
 
 echo -e "[*] Creating new sshd_config..."
@@ -92,6 +99,7 @@ EOF
 #vim /etc/grub/grub.cfg CMDLINE_LINUX="ipv6.disable=1"
 
 echo -e "[*] Making backup of sysctl.conf..."
+sleep 2
 sudo cp /etc/sysctl.conf /etc/sysctl.conf_old
 
 echo -e "[*] Updating sysctl.conf..."
