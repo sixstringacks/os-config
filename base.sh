@@ -1,15 +1,6 @@
 #!/bin/bash
 # Base Debian 10 installation script
 
-echo "[*] Installing some prerequisite packages..."
-sleep 2
-sudo apt install  -y
-
-echo "[*] Adding gpg key for microsoft..."
-sleep 2
-curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
-
 echo "[*] Installing base packages..."
 sleep 2
 sudo apt update && sudo apt install software-properties-common \
@@ -24,6 +15,11 @@ fonts-dejavu fonts-dejavu-extra fonts-noto-color-emoji \
 fonts-symbola xfonts-terminus pip -y
 
 sudo pip3 install pywal
+
+echo "[*] Adding gpg key for microsoft..."
+sleep 2
+curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
 
 echo "[*] Configuring ufw..."
 sleep 2
