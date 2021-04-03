@@ -9,7 +9,7 @@ sudo pip3 install pywal
 git clone https://github.com/autocowrekt/os-config.git
 
 # Cleanup for stow
-rm ~/.bashrc ~/.bash_profile
+rm ~/.bashrc ~/.bash_profile ~/.profile
 
 # symlink dotfiles
 stow -d ~/os-config/dotfiles -t ~/ `ls ~/os-config/dotfiles`
