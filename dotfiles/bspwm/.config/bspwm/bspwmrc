@@ -43,7 +43,7 @@ vmware-user-suid-wrapper &
 $HOME/.config/polybar/launch.sh &
 
 # Set wallpaper
-feh --bg-scale $HOME/os-config/blue-aura.jpg
+feh --bg-scale $HOME/os-config/wallpaper/blue-aura.jpg
 
 # Set wal theme
 #wal --theme sexy-eqie6 &
