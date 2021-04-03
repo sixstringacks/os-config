@@ -13,7 +13,7 @@ rm ~/.bashrc ~/.bash_profile
 
 # symlink dotfiles
 dotfiles=`ls ~/os-config/dotfiles`
-stow -d ~/os-config/wallpaper/dotfiles -t ~/ $(dotfiles)
+stow -d ~/os-config/wallpaper/dotfiles -t ~/ `$dotfiles`
 
 # Make files executable
 chmod 750 ~/.config/bspwm/bspwmrc
