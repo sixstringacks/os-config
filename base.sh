@@ -12,7 +12,8 @@ vim wget wireshark-gtk proxychains4 tor ristretto chromium \
 bless python3 ufw openssh-server papirus-icon-theme \
 fonts-firacode fonts-font-awesome fonts-hack fonts-roboto \
 fonts-dejavu fonts-dejavu-extra fonts-noto-color-emoji \
-fonts-symbola xfonts-terminus python3-pip -y
+fonts-symbola fonts-noto-mono xfce4-terminal xfonts-terminus \
+stow python3-pip -y
 
 sudo pip3 install pywal
 
