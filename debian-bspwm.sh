@@ -12,7 +12,7 @@ git clone https://github.com/autocowrekt/os-config.git
 rm ~/.bashrc ~/.bash_profile
 
 # symlink dotfiles
-for file in `ls ~/os-config/dotfiles`; do stow -d ~/os-config/wallpaper/dotfiles -t ~/ $file; done
+stow -d ~/os-config/dotfiles -t ~/ `ls ~/os-config/dotfiles`
 
 # Make files executable
 chmod 750 ~/.config/bspwm/bspwmrc
