@@ -67,7 +67,7 @@ alt + g ; v; l
 alt + g ; v; c
 	notify-send -i nordvpn "NordVPN Connect" && /usr/bin/nordvpn connect
 
-alt + g ; c; v
+alt + g ; v; c
 	notify-send -i nordvpn "NordVPN Disconnect" && nordvpn disconnect
 
 #

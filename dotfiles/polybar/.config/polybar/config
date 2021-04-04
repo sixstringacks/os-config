@@ -158,7 +158,7 @@ type = internal/network
 interface = tun0
 interval = 3.0
 
-format-connected-underline = ${xrdb:color6}
+format-connected-underline = ${xrdb:color3}
 format-connected-prefix = " "
 format-connected-prefix-foreground = ${colors.foreground-alt}
 label-connected = Vpn: %local_ip%
@@ -175,7 +175,7 @@ type = internal/network
 interface = ens33
 interval = 3.0
 
-format-connected-underline = ${xrdb:color7}
+format-connected-underline = ${xrdb:color4}
 format-connected-prefix = " "
 format-connected-prefix-foreground = ${colors.foreground-alt}
 label-connected = Eth: %local_ip%
@@ -196,7 +196,7 @@ mount-0 = /
 label-mounted = HDD: %free%
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
-label-mounted-underline = ${colors.xrdb5:#222}
+label-mounted-underline = ${colors.xrdb2}
 
 # CPU
 [module/cpu]
@@ -213,7 +213,7 @@ type = internal/memory
 interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = ${colors.xrdb9}
+format-underline = ${colors.xrdb6}
 label = Mem: %percentage_used%%
 
 ## Date
@@ -250,17 +250,18 @@ label-separator-foreground = ${colors.foreground-alt}
 
 menu-0-0 = reboot
 menu-0-0-exec = systemctl reboot
+
 menu-0-1 = poweroff
 menu-0-1-exec = systemctl poweroff
 
 menu-0-2 = logout
 menu-0-2-exec = bspc quit
+
 menu-0-3 = apps
 menu-0-3-exec = rofi -combi-mini window,drun,ssh -font "hack 10" -show combi
 
 #menu-1-1 = systemctl reboot
 #menu-1-1-exec = reboot
-
 #menu-2-0 = power off
 #menu-2-0-exec = poweroff
 #menu-2-1 = cancel
