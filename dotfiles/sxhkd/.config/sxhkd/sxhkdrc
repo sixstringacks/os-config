@@ -61,10 +61,13 @@ alt + g ; c
 alt + g ; o
 	notify-send -i owaspzap "Owasp ZAP" && owaspzap
 
-alt + g ; v
-	notify-send -i nordvpn "NordVPN Connect" && /usr/bin/nordvpn login --username ryan-palmer@outlook.com --password "17w&jhIz&WfIBK3r5v&6w" && /usr/bin/nordvpn connect
+alt + g ; v; l
+	notify-send -i nordvpn "NordVPN Login" && /usr/bin/nordvpn login --username ryan-palmer@outlook.com --password "17w&jhIz&WfIBK3r5v&6w" 
 
-alt + g ; shift + v
+alt + g ; v; c
+	notify-send -i nordvpn "NordVPN Connect" && /usr/bin/nordvpn connect
+
+alt + g ; c; v
 	notify-send -i nordvpn "NordVPN Disconnect" && nordvpn disconnect
 
 #
