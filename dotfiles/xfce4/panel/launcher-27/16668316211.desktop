@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=ghidra
+Comment=Reverse Engineering tool
+Encoding=UTF-8
+Exec=/home/six/tools/ghidra_10.1.5_PUBLIC/ghidraRun
+Terminal=false
+Icon=/home/six/tools/ghidra_10.1.5_PUBLIC/docs/images/GHIDRA_1.png
+Type=Application
+Categories=07-reverseengineer;
+X-XFCE-Source=file:///home/six/.local/share/applications/kali-ghidra.desktop

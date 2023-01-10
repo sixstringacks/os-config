@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=zap
+StartupWMClass=ZAP
+Encoding=UTF-8
+Exec=zaproxy
+Icon=kali-zaproxy
+StartupNotify=false
+Terminal=false
+Type=Application
+Categories=03-webapp-analysis;
+X-Kali-Package=zaproxy
+StartupWMClass=OWASP ZAP
+X-XFCE-Source=file:///usr/share/applications/kali-zaproxy.desktop
