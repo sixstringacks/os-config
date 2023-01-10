@@ -14,9 +14,8 @@
 
 # make sure we're in bash and make default
 if [ $0 != "bash" ];then
-    echo "opening bash..."
-    bash
-    chsh -s /bin/bash six
+    echo "[!] Needs to be run in bash! Exiting..."
+    exit 1
 fi
 
 host="kali20230108"
