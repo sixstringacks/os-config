@@ -5,6 +5,8 @@
 # To Do:
 # fix ghidra java issue
 # add impacket tools to environment variable (autocomplete), what others need to be added?
+# shell detection in script isn't working $0 = script name in script
+# ngrok not in repo?
 #
 ############################################################################################
 
@@ -24,6 +26,7 @@ ghidra_url="https://github.com/NationalSecurityAgency/ghidra/releases/download/G
 chisel_url="https://github.com/jpillora/chisel/releases/download/v1.7.7/chisel_1.7.7_linux_amd64.gz"
 sysinternals_url="https://download.sysinternals.com/files/SysinternalsSuite.zip"
 namemash_url="https://gist.github.com/superkojiman/11076951/archive/74f3de7740acb197ecfa8340d07d3926a95e5d46.zip"
+ngrok_url="https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz"
 
 # Set hostname and update /etc/hosts
 sudo hostnamectl hostname $host
@@ -48,7 +51,7 @@ sleep 2
 sudo apt update && sudo apt install -y apt-transport-https binwalk bless build-essential burpsuite chromium \
 crackmapexec crunch cewl curl dirb dirbuster dnsutils dmitry dos2unix edb-debugger enum4linux evil-winrm \
 ffuf firefox-esr gftp geany git gnupg gparted gobuster gzip hashcat hexchat htop hydra jq john metasploit-framework \
-mitmproxy mupdf net-tools nikto ngrok nmap openssh-server openvpn openjdk-11-jdk os-prober patator powershell \
+mitmproxy mupdf net-tools nikto nmap openssh-server openvpn openjdk-11-jdk os-prober patator powershell \
 proxychains4 p7zip python3 rdesktop remmina rkhunter ristretto sqlmap sqlitebrowser smbclient stow stunnel4 \
 tcpdump tmux tor thunar telnet tftp tigervnc-viewer tmux thunar-archive-plugin traceroute transmission \
 vim virtualbox-guest-utils virtualbox-guest-x11 wfuzz wget wireshark unzip ufw whatweb wget wpscan zaproxy\
@@ -58,29 +61,22 @@ echo "[*] Adding gpg key for microsoft..."
 sleep 2
 curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
-sudo apt install code
+sudo apt update && sudo apt install code
 
 # create folder, download, and extract tool
 manualdeploy () {
-    echo "[*] Setting up $1 in $tools_dir$1"
-    package_dir=$tools_dir$1
-
-    if [[ ! -d $package_dir ]];then 
-        mkdir $package_dir
-        cd $package_dir
-    else 
-        cd $package_dir
-    fi
+    echo "[*] Setting up $1 in $tools_dir"
     
     # download package
     echo "[*] Downloading package from: $2"
+    cd $tools_dir
     wget $2
     IFS="/" 
     read -a package_filename <<< "$2"
     package_filename="${package_filename[-1]}"
 
     # create directory, determine compression type, and extract
-    if [[ -f "$tools_dir$1/$package_filename" ]];then
+    if [[ -f "$tools_dir/$package_filename" ]];then
         echo "[*] Extracting: "$package_filename
         local file_type=$(file -i "$package_filename")
         case "$file_type" in
@@ -103,7 +99,8 @@ manualdeploy () {
             ?)
                 echo "${file} cannot be extarcted"
                 ;;
-        esac       
+        esac
+             
     else
         echo "[!] $package_filename not found!"
     fi
@@ -115,6 +112,8 @@ manualdeploy "ghidra" $ghidra_url
 manualdeploy "chisel" $chisel_url
 manualdeploy "namemash" $namemash_url
 manualdeploy "sysinternals" $sysinternals_url
+manualdeploy "ngrok" $ngrok_url
+
 # set up java correctly. readlink -f $(which java) ?
 
 echo "[*] Commencing nasty number of git clones..."
