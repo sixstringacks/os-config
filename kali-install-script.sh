@@ -277,11 +277,13 @@ sudo depmod -ae
 sudo update-initramfs -u
 
 # Clone setup and dotfiles
+echo "[*] Copying os config..."
 cd $tools_dir
 git clone https://github.com/sixstringacks/os-config.git
 
 # Cleanup for stow
-rm ~/.bashrc ~/.bash_profile ~/.profile
+rm ~/.bashrc ~/.bash_profile ~/.profile 
+rm -rf ~/.config/Thunar ~/.config/xfce4
 
 # symlink dotfiles
 stow -d $tools_dir"os-config/dotfiles" -t ~/ `ls $tools_dir"os-config/dotfiles"`
