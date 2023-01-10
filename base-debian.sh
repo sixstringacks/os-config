@@ -24,7 +24,7 @@ sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/v
 
 sudo apt install code
 
-    echo "[*] Configuring ufw..."
+echo "[*] Configuring ufw..."
 sleep 2
 sudo ufw default deny incoming
 sudo ufw allow in on lo
