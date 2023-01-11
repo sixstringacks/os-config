@@ -66,18 +66,23 @@ sudo apt update && sudo apt install code
 
 # create folder, download, and extract tool
 manualdeploy () {
-    echo "[*] Setting up $1 in $tools_dir"
+    echo "[*] Setting up $1 in $tools_dir$1"
     
+    if [[ ! -d $tools_dir$1 ]]; then
+        mkdir "$tools_dir$1"
+    fi
+    
+    cd $tools_dir$1
+
     # download package
     echo "[*] Downloading package from: $2"
-    cd $tools_dir
     wget $2
     IFS="/" 
     read -a package_filename <<< "$2"
     package_filename="${package_filename[-1]}"
 
     # create directory, determine compression type, and extract
-    if [[ -f "$tools_dir/$package_filename" ]];then
+    if [[ -f "$tools_dir$1/$package_filename" ]];then
         echo "[*] Extracting: "$package_filename
         local file_type=$(file -i "$package_filename")
         case "$file_type" in
