@@ -27,6 +27,7 @@ chisel_url="https://github.com/jpillora/chisel/releases/download/v1.7.7/chisel_1
 sysinternals_url="https://download.sysinternals.com/files/SysinternalsSuite.zip"
 namemash_url="https://gist.github.com/superkojiman/11076951/archive/74f3de7740acb197ecfa8340d07d3926a95e5d46.zip"
 ngrok_url="https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz"
+kekeo_url="https://github.com/gentilkiwi/kekeo/releases/download/2.2.0-20211214/kekeo.zip"
 
 # Set hostname and update /etc/hosts
 sudo hostnamectl hostname $host
@@ -51,7 +52,7 @@ sleep 2
 sudo apt update && sudo apt install -y apt-transport-https binwalk bless build-essential burpsuite chromium \
 crackmapexec crunch cewl curl dirb dirbuster dnsutils dmitry dos2unix edb-debugger enum4linux evil-winrm \
 ffuf firefox-esr gftp geany git gnupg gparted gobuster gzip hashcat hexchat htop hydra jq john metasploit-framework \
-mitmproxy mupdf net-tools nikto nmap openssh-server openvpn openjdk-11-jdk os-prober patator powershell \
+mitmproxy mupdf net-tools neo4j nikto nmap openssh-server openvpn openjdk-11-jdk os-prober patator powershell \
 proxychains4 p7zip python3 rdesktop remmina rkhunter ristretto sqlmap sqlitebrowser smbclient stow stunnel4 \
 tcpdump tmux tor thunar telnet tftp tigervnc-viewer tmux thunar-archive-plugin traceroute transmission \
 vim virtualbox-guest-utils virtualbox-guest-x11 wfuzz wget wireshark unzip ufw whatweb wget wpscan zaproxy\
@@ -113,6 +114,7 @@ manualdeploy "chisel" $chisel_url
 manualdeploy "namemash" $namemash_url
 manualdeploy "sysinternals" $sysinternals_url
 manualdeploy "ngrok" $ngrok_url
+manualdeploy "kekeo" $kekeo_url
 
 # set up java correctly. readlink -f $(which java) ?
 
@@ -140,6 +142,7 @@ cd "$adtools_dir"
 git clone https://github.com/fox-it/aclpwn.py.git
 git clone https://github.com/hausec/ADAPE-Script.git
 git clone https://github.com/fox-it/BloodHound.py.git
+git cloen https://github.com/BloodHoundAD/BloodHound.git
 git clone https://github.com/Group3r/Group3r.git
 git clone https://github.com/eladshamir/Internal-Monologue.git
 git clone https://github.com/fox-it/Invoke-ACLPwn.git
@@ -161,21 +164,53 @@ git clone https://github.com/benpturner/Invoke-DCOM.git
 git clone https://github.com/leoloobeek/LAPSToolkit.git
 git clone https://github.com/dafthack/MailSniper.git
 git clone https://github.com/Sw4mpf0x/PowerLurk.git
-git clone https://github.com/tevora-threat/SharpView.git
 git clone https://github.com/leechristensen/SpoolSample.git
 git clone https://github.com/tomcarver16/ADSearch.git
+git clone https://github.com/ANSSI-FR/AD-control-paths.git
+git clone https://github.com/gdedrouas/Exchange-AD-Privesc.git
+git clone https://github.com/GoFetchAD/GoFetch.git
+git clone https://github.com/outflanknl/Net-GPPPassword.git
+git clone https://github.com/outflanknl/Recon-AD.git
+git clone https://github.com/adrecon/ADRecon.git
+git clone https://github.com/FuzzySecurity/Sharp-Suite.git
 
+# OSINT
+osinttools_dir=$tools_dir"OSINT"
+if [[ ! -d $osinttools_dir ]]; then
+    mkdir "$osinttools_dir"
+fi
+cd "$osinttools_dir"
+git clone https://github.com/m4ll0k/Infoga.git
+git clone https://github.com/vysecurity/LinkedInt.git
+
+# Enumeration
+enumtools_dir=$tools_dir"Enumeration"
+if [[ ! -d $enumtools_dir ]]; then
+    mkdir "$enumtools_dir"
+fi
+cd "$enumtools_dir"
+git clone https://github.com/411Hall/JAWS.git
+git clone https://github.com/rasta-mouse/Sherlock.git
+git clone https://github.com/rebootuser/LinEnum.git
+git clone https://github.com/M4ximuss/Powerless.git
+git clone https://github.com/mzet-/linux-exploit-suggester.git
+git clone http://github.com/jondonas/linux-exploit-suggester-2.git
+git clone https://github.com/SecWiki/linux-kernel-exploits.git
+git clone https://github.com/sleventyeleven/linuxprivchecker.git
+git clone https://github.com/itm4n/PrivescCheck.git
+git clone https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite.git
+git clone https://github.com/GhostPack/Seatbelt.git
+git clone https://github.com/AonCyberLabs/Windows-Exploit-Suggester.git
+git clone https://github.com/SecWiki/windows-kernel-exploits.git
+git clone https://github.com/pentestmonkey/windows-privesc-check.git
+git clone https://github.com/bitsadmin/wesng.git
+git clone https://github.com/NetSPI/PowerUpSQL.git
+git clone https://github.com/tevora-threat/SharpView.git
 
 # Base
 cd "$tools_dir"
-git clone https://github.com/411Hall/JAWS.git
-git clone https://github.com/rebootuser/LinEnum.git
-git clone https://github.com/M4ximuss/Powerless.git
-git clone https://github.com/rasta-mouse/Sherlock.git
 git clone https://github.com/Tib3rius/AutoRecon.git
 git clone https://github.com/AlessandroZ/BeRoot.git
-git clone https://gitlab.com/kalilinux/packages/bluemaho.git
-git clone https://github.com/Arvanaghi/CheckPlease.git
 git clone https://github.com/Dionach/CMSmap.git
 git clone https://github.com/dnSpy/dnSpy
 git clone https://github.com/rbsec/dnscan.git
@@ -188,12 +223,6 @@ git clone https://github.com/Kevin-Robertson/Invoke-TheHash.git
 git clone https://github.com/ticarpi/jwt_tool.git
 git clone https://github.com/mattrotlevi/lava.git
 git clone https://github.com/AlessandroZ/LaZagne.git
-git clone https://github.com/vysecurity/LinkedInt.git
-git clone https://github.com/mzet-/linux-exploit-suggester.git
-git clone http://github.com/jondonas/linux-exploit-suggester-2.git
-git clone https://github.com/SecWiki/linux-kernel-exploits.git
-git clone https://github.com/sleventyeleven/linuxprivchecker.git
-git clone https://github.com/decoder-it/lonelypotato.git
 git clone https://github.com/curi0usJack/luckystrike.git
 git clone https://github.com/gentilkiwi/mimikatz.git
 git clone https://github.com/samratashok/nishang.git
@@ -202,9 +231,7 @@ git clone https://github.com/swisskyrepo/PayloadsAllTheThings.git
 git clone https://github.com/longld/peda.git
 git clone https://github.com/besimorhino/powercat.git
 git clone https://github.com/Mr-Un1k0d3r/PowerLessShell.git
-git clone https://github.com/itm4n/PrivescCheck.git
 git clone https://github.com/dirkjanm/PrivExchange.git
-git clone https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite.git
 git clone https://github.com/DominicBreuker/pspy.git
 git clone https://github.com/mattifestation/PSReflect.git
 git clone https://github.com/Mr-Un1k0d3r/RedTeamPowershellScripts.git
@@ -216,11 +243,7 @@ git clone https://github.com/brav0hax/smbexec.git
 git clone https://github.com/Veil-Framework/Veil.git
 git clone https://github.com/volatilityfoundation/volatility3.git
 git clone https://github.com/rasta-mouse/Watson.git
-git clone https://github.com/bitsadmin/wesng.git
 git clone https://github.com/interference-security/kali-windows-binaries.git
-git clone https://github.com/AonCyberLabs/Windows-Exploit-Suggester.git
-git clone https://github.com/SecWiki/windows-kernel-exploits.git
-git clone https://github.com/pentestmonkey/windows-privesc-check.git
 git clone https://github.com/FortyNorthSecurity/WMIOps.git
 git clone https://github.com/4n4nk3/Wordlister.git
 git clone https://github.com/outflanknl/EvilClippy.git
@@ -228,22 +251,42 @@ git clone https://github.com/ElevenPaths/FOCA.git
 git clone https://github.com/frohoff/ysoserial.git
 git clone https://github.com/foxglovesec/RottenPotato.git
 git clone https://github.com/breenmachine/RottenPotatoNG.git
+git clone https://github.com/ohpe/juicy-potato.git
+git clone https://github.com/decoder-it/lonelypotato.git
 git clone https://github.com/eladshamir/Internal-Monologue.git
 git clone https://github.com/p3nt4/PowerShdll.git
 git clone https://github.com/FuzzySecurity/PowerShell-Suite.git
 git clone https://github.com/PowerShellMafia/PowerSploit.git
 git clone https://github.com/PowerShellEmpire/PowerTools.git
-git clone https://github.com/NetSPI/PowerUpSQL.git
 git clone https://github.com/anthemtotheego/SharpExec.git
 git clone https://github.com/byt3bl33d3r/SprayingToolkit.git
 git clone https://github.com/ZeroPointSecurity/PhishingTemplates.git
-git clone https://github.com/GhostPack/Seatbelt.git
 git clone https://github.com/GhostPack/Rubeus.git
 git clone https://github.com/GhostPack/SafetyKatz.git
 git clone https://github.com/GhostPack/SharpUp.git
 git clone https://github.com/GhostPack/SharpDPAPI.git
 git clone https://github.com/mandiant/SharPersist.git
 git clone https://github.com/r3motecontrol/Ghostpack-CompiledBinaries.git
+git clone https://github.com/cobbr/Covenant.git
+git clone https://github.com/maaaaz/CrackMapExecWin.git
+git clone https://github.com/fuzzdb-project/fuzzdb.git
+git clone https://github.com/darkoperator/dnsrecon.git
+git clone https://github.com/FortyNorthSecurity/Egress-Assess.git
+git clone https://github.com/sixstringacks/httpScrape.git
+git clone https://github.com/denandz/KeeFarce.git
+git clone https://github.com/GhostPack/KeeThief.git
+git clone https://github.com/orlyjamie/mimikittenz.git
+git clone https://github.com/NytroRST/NetRipper.git
+git clone https://github.com/matterpreter/OffensiveCSharp.git
+git clone https://github.com/cobbr/PSAmsi.git
+git clone https://github.com/gtworek/PSBits.git
+git clone https://github.com/cyberark/RiskySPN.git
+git clone https://github.com/FSecureLABS/SharpClipHistory.git
+git clone https://github.com/vletoux/SpoolerScanner.git
+git clone https://github.com/klezVirus/SysWhispers3.git
+git clone https://github.com/hfiref0x/UACME.git
+git clone https://github.com/praetorian-inc/vulcan.git
+git clone https://github.com/BlackArch/webshells.git
 
 ##############
 ## OS Config
