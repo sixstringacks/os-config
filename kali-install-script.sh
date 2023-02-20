@@ -1,12 +1,10 @@
 ############################################################################################
 # Name: Kali Install Script
-# Description: Installs packages from minmal kali image
+# Description: Installs packages from minimal kali image
 #
 # To Do:
 # fix ghidra java issue
 # add impacket tools to environment variable (autocomplete), what others need to be added?
-# shell detection in script isn't working $0 = script name in script
-# ngrok not in repo?
 #
 ############################################################################################
 
